@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_reverse_entry" model="ir.cron">
+        <field name="name">Synch Product</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_product_template"/>
+        <field name="code">model.process_demo_scheduler_queue()</field>
+        <field name="state">code</field>
+    </record>
+
+       <record id="ir_cron_synch_techdata" model="ir.cron">
+        <field name="name">Synch Techdata</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_techdata_config"/>
+        <field name="code">model.sync_product_cron()</field>
+        <field name="state">code</field>
+    </record>
+
+</odoo>

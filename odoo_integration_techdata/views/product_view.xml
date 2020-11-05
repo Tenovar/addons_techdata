@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    
+        <record model="ir.ui.view" id="product_normal_form_view_inherited1" >
+            <field name="name">product.normal.form.inherited1</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+             <field name="type" position="after">
+                 <field name="manufacturer"/>
+                  <field name="ean"/>
+            </field>                
+          </field>            
+        </record>    
+      
+
+          <record id="techdata_product_search_form_view" model="ir.ui.view">
+            <field name="name">techdata.product.product.search</field>
+            <field name="model">product.template</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='services']" position="before">
+                    <separator/>
+                        <filter name="filter_techdata" string="Techdata Product" domain="[('techdata', '=', True)]"/>                        
+                    <separator/>                                     
+                </xpath>
+            </field>
+        </record>
+
+
+          <record id="action_techdata_products" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="search_view_id" ref="techdata_product_search_form_view"/>
+            <field name="context">{"search_default_filter_techdata":1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new product
+                </p>
+                <p>
+                    You must define a product for everything you purchase,
+                    whether it's a physical product, a consumable or services.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_techdata_products" name="Master Data" parent="odoo_integration_techdata.menu_connector_root" sequence="1"/>
+            
+        <menuitem id="menu_product_in_master_data" name="Products" parent="odoo_integration_techdata.menu_techdata_products" sequence="4"
+                  action="action_techdata_products"/>
+        <menuitem
+        action="product.product_category_action_form" id="menu_product_category_config_stock"
+        parent="odoo_integration_techdata.menu_techdata_products" sequence="2"/>
+
+   
+ 
+
+    </data>
+</odoo>

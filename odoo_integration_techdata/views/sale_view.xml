@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <data>
+
+         <record id="view_sales_order_filter_ecommerce_techdata" model="ir.ui.view">
+            <field name="name">sale.order.ecommerce.search.view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="mode">primary</field> 
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='my_sale_orders_filter']" position="replace">
+                    <filter string="Confirmed Orders" name="order_confirmed" domain="[('state', 'in', ('sale', 'done'))]"/>
+                    <separator/>
+                    <filter string="Order Date" name="order_date" date="date_order"/>
+                    <separator/>
+                    <filter string="From Website" name="from_website" domain="[('team_id.team_type', '=', 'website')]"/>
+                    <separator/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_orders_ecommerce_techdata" model="ir.actions.act_window">
+            <field name="name">Orders</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form,kanban,activity</field>
+            <field name="context">{'search_default_from_website': 1}</field>
+            <field name="search_view_id" ref="view_sales_order_filter_ecommerce_techdata"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_empty_folder">
+                    There is no confirmed order from the website
+                </p>
+            </field>
+        </record>   
+
+
+       <!-- Main website sale menu items -->
+    <menuitem id="menu_orders" name="Sales"
+        parent="odoo_integration_techdata.menu_connector_root" sequence="2"
+        groups="sales_team.group_sale_salesman"/>
+
+
+    <!-- Orders sub-menus -->
+    <menuitem id="menu_orders_orders" name="Orders"
+        action="odoo_integration_techdata.action_orders_ecommerce_techdata"
+        parent="odoo_integration_techdata.menu_orders" sequence="1"/>
+
+
+    <menuitem id="menu_orders_customers" name="Customers"
+        action="base.action_partner_customer_form"
+        parent="odoo_integration_techdata.menu_orders" sequence="4"/>
+
+
+   </data>
+</odoo>
+
+  
+
+    

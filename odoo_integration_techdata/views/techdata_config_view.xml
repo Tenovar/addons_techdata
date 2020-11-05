@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <data>
+   		<record model="ir.ui.view" id="techdata_tree_view_config">
+			<field name="name">techdata.tree.config</field>
+			<field name="model">techdata.config</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree decoration-info="state == 'draft'" string="Profils">
+					<field name="name" />
+					<field name="state"/>				
+				</tree>
+			</field>
+		 </record>
+   		 <record model="ir.ui.view" id="techdata_form_view_config">
+		 	<field name="name">techdata.form.config</field>
+			<field name="model">techdata.config</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml" >
+			<form string="Profil" version="7.0" >	
+			    <header>
+                        <button string="Test &amp; Confirm" type="object" name="button_confirm_login" states="draft"/>
+                        <button name="check_ftp" string="Check FTP connection" type="object"/>                       
+                        <button string="Reset Confirmation" type="object" name="set_draft" states="done"/>
+                        <button name="button_import_data"  type="object" string="Download" />
+                    	<button name="synchro_data"  type="object" string="Synchronize" />
+                        <field name="state" widget="statusbar"/>
+                  </header>
+			    <sheet>
+			        <notebook>
+			            <page string="Configuration">
+			                <group string="Configuration">
+	                            <group >
+		                            <field name="name" />
+		                            <field name="country_id" />
+		                         </group>	
+		                         <group>
+		                            <field name="location_id" />
+		                            <field name="categorie_id" />
+		                         </group>	                     
+                            </group>                        
+
+                            <group>
+                            	<field name="supplier_id" /> 
+                               <field name="sku_Product" />                                
+                            </group>
+                            	<group string="Techdata Connection">
+	                                <field name="xml_host" />
+	                                <field name="xml_auth" />
+	                                <field name="buyerID" />
+	                                <field name="techdata_login" />
+	                                <field name="techdata_passwd" password="True"/>
+	                            </group>  
+	                             <group string="FTP Server">
+	                             	<field name="chemin" />
+	                                <field name="server_address" />
+	                                <field name="server_login" />
+	                                <field name="server_passwd" password="True"/>
+	                            </group>
+	                            <group string="Actions">	                                
+	                                <field name="date_import"/>
+	                                <field name="date_synchro"/>
+	                            </group>
+	                            <group string="Files">
+                                    <field name="file_cat"/>
+                                    <field name="file_prod"/>
+                                </group>                            
+				        </page>			          
+			         </notebook>
+                </sheet>
+                </form>
+			</field>
+		</record>
+		
+		 <!-- Action sur le menu de configuration-->
+		<record model="ir.actions.act_window" id="action_techdata_form_config">
+			<field name="name">Configuration</field>
+			<field name="res_model">techdata.config</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="techdata_tree_view_config"/>
+		</record>
+		
+   		
+
+
+	    <menuitem id="menu_connector_root"
+	        name="Techdata-EDI"
+	        groups="group_connector_manager"/>
+
+	    <menuitem id="menu_connector"
+	        name="Techdata"
+	        parent="odoo_integration_techdata.menu_connector_root" />
+
+   		<menuitem id="menu_checkpoint"
+        parent="odoo_integration_techdata.menu_connector"
+        name="check Techdata"
+        action="action_techdata_form_config"
+        sequence="20"/>
+   </data>
+</odoo>
